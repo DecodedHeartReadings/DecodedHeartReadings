@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DecodedHeart — Pattern Analysis & Relationship Coaching</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f5f0e8;
+    --warm-white: #faf8f4;
+    --deep-navy: #1a1f2e;
+    --soft-gold: #c9a96e;
+    --muted-sage: #8a9e8c;
+    --charcoal: #2d3142;
+    --light-line: rgba(26,31,46,0.1);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--warm-white);
+    color: var(--deep-navy);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 24px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(250,248,244,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--light-line);
+  }
+
+  .logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    color: var(--deep-navy);
+    text-decoration: none;
+  }
+
+  .logo span { color: var(--soft-gold); }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 40px;
+  }
+
+  nav ul a {
+    text-decoration: none;
+    color: var(--charcoal);
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+
+  nav ul a:hover { opacity: 1; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 120px 48px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(201,169,110,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -100px; left: -100px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(138,158,140,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-content {
+    max-width: 680px;
+    animation: fadeUp 1s ease forwards;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--soft-gold);
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.2s forwards;
+  }
+
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.8rem, 5vw, 4.2rem);
+    font-weight: 300;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.3s forwards;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--soft-gold);
+  }
+
+  .hero-sub {
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: var(--charcoal);
+    opacity: 0;
+    max-width: 540px;
+    animation: fadeUp 0.8s ease 0.4s forwards;
+    margin-bottom: 48px;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.5s forwards;
+  }
+
+  .btn-primary {
+    background: var(--deep-navy);
+    color: var(--cream);
+    padding: 16px 36px;
+    text-decoration: none;
+    font-size: 0.82rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: background 0.3s, transform 0.2s;
+  }
+
+  .btn-primary:hover {
+    background: var(--charcoal);
+    transform: translateY(-1px);
+  }
+
+  .btn-secondary {
+    color: var(--deep-navy);
+    padding: 16px 36px;
+    text-decoration: none;
+    font-size: 0.82rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: 1px solid var(--deep-navy);
+    transition: all 0.3s;
+  }
+
+  .btn-secondary:hover {
+    background: var(--deep-navy);
+    color: var(--cream);
+  }
+
+  /* SECTION BASE */
+  section {
+    padding: 100px 48px;
+  }
+
+  .section-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--soft-gold);
+    margin-bottom: 20px;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 300;
+    line-height: 1.2;
+    margin-bottom: 24px;
+  }
+
+  .section-title em {
+    font-style: italic;
+    color: var(--soft-gold);
+  }
+
+  /* ABOUT */
+  .about {
+    background: var(--cream);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .about-text p {
+    font-size: 1rem;
+    line-height: 1.85;
+    color: var(--charcoal);
+    margin-bottom: 20px;
+  }
+
+  .about-text p:last-child { margin-bottom: 0; }
+
+  .about-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+
+  .stat {
+    border-top: 1px solid var(--light-line);
+    padding-top: 24px;
+  }
+
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.8rem;
+    font-weight: 300;
+    color: var(--deep-navy);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .stat-num span { color: var(--soft-gold); }
+
+  .stat-label {
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    color: var(--charcoal);
+    opacity: 0.7;
+    text-transform: uppercase;
+  }
+
+  /* SERVICES */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 64px;
+    background: var(--light-line);
+  }
+
+  .service-card {
+    background: var(--warm-white);
+    padding: 48px 40px;
+    transition: background 0.3s;
+    cursor: default;
+  }
+
+  .service-card:hover {
+    background: var(--deep-navy);
+  }
+
+  .service-card:hover .service-title,
+  .service-card:hover .service-desc,
+  .service-card:hover .service-num {
+    color: var(--cream);
+  }
+
+  .service-card:hover .service-num {
+    color: var(--soft-gold);
+  }
+
+  .service-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    color: var(--soft-gold);
+    margin-bottom: 32px;
+    display: block;
+    transition: color 0.3s;
+  }
+
+  .service-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin-bottom: 16px;
+    transition: color 0.3s;
+  }
+
+  .service-desc {
+    font-size: 0.88rem;
+    line-height: 1.75;
+    color: var(--charcoal);
+    opacity: 0.8;
+    transition: color 0.3s;
+  }
+
+  /* HOW IT WORKS */
+  .how {
+    background: var(--deep-navy);
+    color: var(--cream);
+  }
+
+  .how .section-title { color: var(--cream); }
+  .how .section-label { color: var(--soft-gold); }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 48px;
+    margin-top: 64px;
+  }
+
+  .step {
+    border-top: 1px solid rgba(245,240,232,0.15);
+    padding-top: 32px;
+  }
+
+  .step-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem;
+    font-weight: 300;
+    color: var(--soft-gold);
+    opacity: 0.4;
+    line-height: 1;
+    margin-bottom: 20px;
+  }
+
+  .step-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    color: var(--cream);
+    margin-bottom: 12px;
+  }
+
+  .step-desc {
+    font-size: 0.85rem;
+    line-height: 1.75;
+    color: rgba(245,240,232,0.6);
+  }
+
+  /* FOR YOU */
+  .foryou {
+    background: var(--cream);
+  }
+
+  .foryou-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-top: 56px;
+    max-width: 720px;
+  }
+
+  .foryou-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .foryou-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--soft-gold);
+    border-radius: 50%;
+    margin-top: 8px;
+    flex-shrink: 0;
+  }
+
+  .foryou-text {
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: var(--charcoal);
+  }
+
+  /* CTA SECTION */
+  .cta-section {
+    text-align: center;
+    padding: 120px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(201,169,110,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .cta-section .section-title {
+    font-size: clamp(2.2rem, 4vw, 3.5rem);
+    max-width: 600px;
+    margin: 0 auto 40px;
+  }
+
+  .cta-section p {
+    font-size: 1rem;
+    color: var(--charcoal);
+    opacity: 0.7;
+    max-width: 480px;
+    margin: 0 auto 48px;
+    line-height: 1.75;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--deep-navy);
+    color: rgba(245,240,232,0.5);
+    padding: 40px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+  }
+
+  footer .logo { color: var(--cream); }
+
+  .footer-note {
+    font-size: 0.72rem;
+    opacity: 0.5;
+    text-align: right;
+    line-height: 1.6;
+  }
+
+  /* DIVIDER */
+  .divider {
+    width: 48px;
+    height: 1px;
+    background: var(--soft-gold);
+    margin: 32px 0;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 20px 24px; }
+    nav ul { display: none; }
+    section { padding: 80px 24px; }
+    .hero { padding: 100px 24px 60px; }
+    .about { grid-template-columns: 1fr; gap: 48px; }
+    .services-grid { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: 1fr 1fr; gap: 32px; }
+    .foryou-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 16px; text-align: center; }
+    .footer-note { text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">Decoded<span>Heart</span></a>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#contact">Get Started</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <p class="hero-eyebrow">Pattern Analysis · Relationship Coaching</p>
+    <h1>Why do you keep attracting <em>the same person?</em></h1>
+    <p class="hero-sub">
+      When a pattern repeats, the problem is never the other person. It's a structure built inside you long before you met them. I help you decode it.
+    </p>
+    <div class="hero-cta">
+      <a href="#services" class="btn-primary">View Services</a>
+      <a href="#how" class="btn-secondary">How It Works</a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-text">
+    <p class="section-label">About</p>
+    <h2 class="section-title">Not comfort.<br><em>Clarity.</em></h2>
+    <div class="divider"></div>
+    <p>
+      My background is in AI research design and quantitative pattern analysis — years of stress-testing thousands of variables to find what actually drives outcomes.
+    </p>
+    <p>
+      What I discovered is that human behavior follows the same logic. The way you attach, the people you choose, the way relationships break down — all of it is traceable.
+    </p>
+    <p>
+      I combine that analytical framework with Korean Saju astrology and Human Design to reverse-engineer your patterns from the root. Not predictions. A precise map of why your patterns exist and where they come from.
+    </p>
+  </div>
+  <div class="about-stats">
+    <div class="stat">
+      <div class="stat-num">3<span>K+</span></div>
+      <div class="stat-label">Patterns analyzed</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">2<span>+</span></div>
+      <div class="stat-label">Systems combined</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">75<span>%+</span></div>
+      <div class="stat-label">Past accuracy rate</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">100<span>%</span></div>
+      <div class="stat-label">Text-based, async</div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <p class="section-label">Services</p>
+  <h2 class="section-title">What I <em>offer</em></h2>
+  <div class="services-grid">
+    <div class="service-card">
+      <span class="service-num">01</span>
+      <h3 class="service-title">Relationship Pattern Analysis</h3>
+      <p class="service-desc">Reverse-engineer why you keep attracting the same type of person. Rooted in attachment patterns, early-formed structures, and Saju + Human Design mapping.</p>
+    </div>
+    <div class="service-card">
+      <span class="service-num">02</span>
+      <h3 class="service-title">Human Design + Saju Reading</h3>
+      <p class="service-desc">A deep structural analysis of who you are, how your energy moves, and what drives your unconscious choices — using two ancient pattern systems cross-referenced.</p>
+    </div>
+    <div class="service-card">
+      <span class="service-num">03</span>
+      <h3 class="service-title">Life Pattern Coaching</h3>
+      <p class="service-desc">For when the pattern goes beyond relationships. Burnout, repeated failures, self-sabotage — traced back to their source and restructured from the root.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <p class="section-label">Process</p>
+  <h2 class="section-title">How it <em>works</em></h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <h3 class="step-title">You share your data</h3>
+      <p class="step-desc">Birth date, time, and a few key moments from your past. That's all I need to begin.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h3 class="step-title">I map your past</h3>
+      <p class="step-desc">Before anything else, I reverse-engineer what already happened — and verify the pattern against real events in your life.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h3 class="step-title">The structure appears</h3>
+      <p class="step-desc">Why you chose this person. Why it keeps repeating. What was built inside you that keeps pulling you toward the same outcome.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <h3 class="step-title">You receive clarity</h3>
+      <p class="step-desc">A detailed written analysis delivered to you. No calls required. No vague predictions. Just precise, honest insight.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOR YOU -->
+<section class="foryou">
+  <p class="section-label">Is this for you?</p>
+  <h2 class="section-title">This is for you <em>if —</em></h2>
+  <div class="foryou-grid">
+    <div class="foryou-item">
+      <div class="foryou-dot"></div>
+      <p class="foryou-text">You keep attracting the same type of person and don't know why</p>
+    </div>
+    <div class="foryou-item">
+      <div class="foryou-dot"></div>
+      <p class="foryou-text">Your relationships follow the same painful cycle every time</p>
+    </div>
+    <div class="foryou-item">
+      <div class="foryou-dot"></div>
+      <p class="foryou-text">You've tried everything but the pattern refuses to break</p>
+    </div>
+    <div class="foryou-item">
+      <div class="foryou-dot"></div>
+      <p class="foryou-text">You want to understand yourself at a level most people never reach</p>
+    </div>
+    <div class="foryou-item">
+      <div class="foryou-dot"></div>
+      <p class="foryou-text">You're tired of comfort and ready for real answers</p>
+    </div>
+    <div class="foryou-item">
+      <div class="foryou-dot"></div>
+      <p class="foryou-text">You sense there's a deeper structure beneath your choices</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+  <p class="section-label">Get Started</p>
+  <h2 class="section-title">Ready to see the <em>pattern?</em></h2>
+  <p>Most coaches will validate your feelings. I show you the structure beneath them.</p>
+  <a href="https://www.etsy.com/shop/DecodedHeartReadings" class="btn-primary" target="_blank">Book on Etsy</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#" class="logo">Decoded<span>Heart</span></a>
+  <p class="footer-note">
+    All readings are for self-reflection purposes only and do not constitute<br>
+    legal, medical, or financial advice. © 2025 DecodedHeart.
+  </p>
+</footer>
+
+</body>
+</html>
